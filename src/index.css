@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.rate-pos { @apply text-emerald-400; }
+.rate-neg { @apply text-rose-400; }
+.card { @apply bg-slate-800 rounded-2xl p-4 shadow; }
