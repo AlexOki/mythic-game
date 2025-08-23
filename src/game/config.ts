@@ -12,9 +12,9 @@ export const START_RESOURCES: Resources = {
   Wood: 60, Stone: 60, Iron: 30, Gold: 30, Food: 150, Linen: 20, Leather: 20, Faith: 0
 }
 
-export const FOOD_CONSUMPTION_PER_POP_PER_MIN = 0.02
-export const POP_GROWTH_PER_SEC_IF_SURPLUS = 0.00003
-export const POP_DECAY_PER_SEC_IF_STARVING = 0.00005
+export const FOOD_CONSUMPTION_PER_POP_PER_MIN = 0.2
+export const POP_GROWTH_PER_SEC_IF_SURPLUS = 0.0003
+export const POP_DECAY_PER_SEC_IF_STARVING = 0.0005
 
 export const FAITH_PER_POP_PER_SEC: Record<Alignment, number> = {
   Good: 0.0000, Neutral: 0.0000, Evil: 0.0000
@@ -50,11 +50,11 @@ export const BUILDINGS: BuildingDef[] = [
   { id:'Iron Mine',       description:'Produces iron',              allowedBiomes:[Biome.Mountain],                     yields:{ Iron:0.4 },                         requiresWorker:true },
   { id:'Gold Mine',       description:'Produces gold',              allowedBiomes:[Biome.Mountain],                     yields:{ Gold:0.3 },                         requiresWorker:true },
 
-  // Housing/Temple don’t need workers
+  // Housing don’t need workers
   { id:'Hut',             description:'Small housing (+20 cap)',    allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:20, requiresWorker:false },
   { id:'House',           description:'Large housing (+60 cap)',    allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:60, requiresWorker:false },
-    { id:'Villa',           description:'Luxury housing (+120 cap)',   allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:120, requiresWorker:false },
-    { id:'Temple',          description:'Generates Faith flat/s',     allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], faithPerSec:0.5, requiresWorker:false },
+  { id:'Villa',           description:'Luxury housing (+120 cap)',   allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:120, requiresWorker:false },
+  { id:'Temple',          description:'Generates Faith flat/s',     allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], faithPerSec:0.5, requiresWorker:true },
 ]
 
 export const BUILD_COST: Record<string, Partial<Resources>> = {

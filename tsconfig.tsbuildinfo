@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/alignmentpicker.tsx","./src/components/confirmmodal.tsx","./src/components/mapgrid.tsx","./src/components/resourcebar.tsx","./src/components/tilepreview.tsx","./src/components/icons.tsx","./src/game/config.ts","./src/game/state.ts","./src/game/tileutils.ts","./src/game/types.ts"],"version":"5.8.3"}

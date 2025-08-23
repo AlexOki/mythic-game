@@ -29,7 +29,7 @@ export type BuildingDef = {
 }
 
 export type BuildingCounts = Partial<Record<BuildingId, number>>
-export type BuildJob = { id: BuildingId; remainingSec: number }
+export type BuildJob = { id: BuildingId; remainingSec: number; startCell?: number }
 export type WorkerAlloc = Partial<Record<BuildingId, number>> // (if you add worker sliders later)
 
 export type UnitId =
@@ -57,6 +57,8 @@ export type SaveBlob = {
   grid: Tile[]
   buildings: BuildingCounts
   buildQueue: BuildJob[]
+  placedBuildings?: Partial<Record<number, BuildingId>>
+  cellWorkerAlloc?: Partial<Record<number, number>>
   units: UnitCounts
   trainQueue: UnitJob[]
   // workerAlloc?: WorkerAlloc  // uncomment if/when you add sliders again
