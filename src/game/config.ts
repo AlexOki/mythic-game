@@ -53,7 +53,8 @@ export const BUILDINGS: BuildingDef[] = [
   // Housing/Temple don’t need workers
   { id:'Hut',             description:'Small housing (+20 cap)',    allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:20, requiresWorker:false },
   { id:'House',           description:'Large housing (+60 cap)',    allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:60, requiresWorker:false },
-  { id:'Temple',          description:'Generates Faith flat/s',     allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], faithPerSec:0.02, requiresWorker:false },
+    { id:'Villa',           description:'Luxury housing (+120 cap)',   allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:120, requiresWorker:false },
+    { id:'Temple',          description:'Generates Faith flat/s',     allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], faithPerSec:0.5, requiresWorker:false },
 ]
 
 export const BUILD_COST: Record<string, Partial<Resources>> = {
@@ -63,12 +64,14 @@ export const BUILD_COST: Record<string, Partial<Resources>> = {
   'Quarry': { Wood: 30 }, 'Iron Mine': { Wood: 40, Stone: 20 },
   'Gold Mine': { Wood: 50, Stone: 30}, 'Hut': { Wood: 40, Food: 20 },
   'House': { Wood: 80, Stone: 40 }, 'Temple': { Wood: 60, Stone: 60},
+    'Villa': { Wood: 160, Stone: 120 },
 }
 
 export const BUILD_TIME_SEC: Record<string, number> = {
   'Farm': 20, 'Pasture': 25, 'Hunting Grounds': 25, 'Fisheries': 30,
   'Flax Fields': 25, 'Lumber Camps': 20, 'Quarry': 30, 'Iron Mine': 35,
   'Gold Mine': 40, 'Hut': 20, 'House': 45, 'Temple': 60,
+    'Villa': 90,
 }
 
 export const UNITS: UnitDef[] = [

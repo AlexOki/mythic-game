@@ -15,7 +15,7 @@ export type Tile = {
 
 export type BuildingId =
   | 'Farm' | 'Pasture' | 'Hunting Grounds' | 'Fisheries' | 'Flax Fields' | 'Lumber Camps'
-  | 'Quarry' | 'Iron Mine' | 'Gold Mine' | 'Hut' | 'House' | 'Temple'
+  | 'Quarry' | 'Iron Mine' | 'Gold Mine' | 'Hut' | 'House' | 'Temple' | 'Villa'
 
 export type BuildingDef = {
   id: BuildingId
