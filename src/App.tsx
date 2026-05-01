@@ -147,6 +147,14 @@ export default function App() {
       return rest
     })
 
+    // Population grows if fed, decays if starving, capped by housing
+    setPopulation(prev => {
+      const hasFood = resources.Food > foodConsumptionPerSec
+      const atCap = prev >= maxPopulation
+      const growth = hasFood && !atCap ? prev * POP_GROWTH_PER_SEC_IF_SURPLUS : 0
+      const decay = !hasFood ? prev * POP_DECAY_PER_SEC_IF_STARVING : 0
+      return Math.max(1, Math.min(maxPopulation, prev + growth - decay))
+    })
   }
 
   // Save/Load
