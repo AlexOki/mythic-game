@@ -113,6 +113,15 @@ export default function App() {
       for (const [k, v] of Object.entries(prodFromBuildings.out)) next[k as Resource] = (next[k as Resource] ?? 0) + (v as number)
       next.Faith += faithPerSec
       next.Food = Math.max(0, next.Food - foodConsumptionPerSec)
+
+      // Keep population evolution based on post-tick food state to avoid stale reads.
+      setPopulation(popPrev => {
+        const hasFood = next.Food > 0
+        const atCap = popPrev >= maxPopulation
+        const growth = hasFood && !atCap ? popPrev * POP_GROWTH_PER_SEC_IF_SURPLUS : 0
+        const decay = !hasFood ? popPrev * POP_DECAY_PER_SEC_IF_STARVING : 0
+        return Math.max(1, Math.min(maxPopulation, popPrev + growth - decay))
+      })
       return next
     })
 
