@@ -8,9 +8,10 @@ import {
 } from './game/types'
 import {
   GRID_H, GRID_W, START_MAX_POP, START_POP, START_RESOURCES, TICK_MS,
-  BUILDINGS, FOOD_CONSUMPTION_PER_POP_PER_MIN, BUILD_COST, BUILD_TIME_SEC, UNITS
+  BUILDINGS, FOOD_CONSUMPTION_PER_POP_PER_MIN, BUILD_COST, BUILD_TIME_SEC, UNITS,
+  POP_GROWTH_PER_SEC_IF_SURPLUS, POP_DECAY_PER_SEC_IF_STARVING
 } from './game/config'
-import { /* biomeYieldsPerSecond (removed), */ faithFromAlignment, fmt, generateGrid, loadGame, saveGame } from './game/state'
+import { faithFromAlignment, fmt, generateGrid, loadGame, saveGame } from './game/state'
 
 /* ------------------------- helpers ------------------------- */
 function canAfford(res: Resources, cost: Partial<Resources>) {
@@ -62,9 +63,6 @@ export default function App() {
     return tile ? tile.biomeMix : null
   }, [startTile, grid])
 
-  // ❌ Removed passive biome production
-  const prodFromBiome = useMemo(() => ({} as Partial<Resources>), [])
-
   // Buildings need workers; output scales by coverage
   const prodFromBuildings = useMemo(() => {
     const totalUnits = sumUnits(units)
@@ -112,10 +110,18 @@ export default function App() {
 
     setResources(prev => {
       const next: Resources = { ...prev }
-      // ❌ No passive biome gain
       for (const [k, v] of Object.entries(prodFromBuildings.out)) next[k as Resource] = (next[k as Resource] ?? 0) + (v as number)
       next.Faith += faithPerSec
       next.Food = Math.max(0, next.Food - foodConsumptionPerSec)
+
+      // Keep population evolution based on post-tick food state to avoid stale reads.
+      setPopulation(popPrev => {
+        const hasFood = next.Food > 0
+        const atCap = popPrev >= maxPopulation
+        const growth = hasFood && !atCap ? popPrev * POP_GROWTH_PER_SEC_IF_SURPLUS : 0
+        const decay = !hasFood ? popPrev * POP_DECAY_PER_SEC_IF_STARVING : 0
+        return Math.max(1, Math.min(maxPopulation, popPrev + growth - decay))
+      })
       return next
     })
 
@@ -141,14 +147,6 @@ export default function App() {
       return rest
     })
 
-    // Population grows if fed, decays if starving, capped by housing
-    setPopulation(prev => {
-      const hasFood = resources.Food > 0
-      const atCap = prev >= maxPopulation
-      const growth = hasFood && !atCap ? prev * 0.00003 : 0
-      const decay = !hasFood ? prev * 0.00005 : 0
-      return Math.max(1, Math.min(maxPopulation, prev + growth - decay))
-    })
   }
 
   // Save/Load
@@ -159,7 +157,7 @@ export default function App() {
 
   function onSave() {
     const blob: SaveBlob = {
-      version: '7',
+      version: '8',
       alignment, faction, resources, population, maxPopulation,
       startTile, grid,
       buildings, buildQueue,
@@ -179,7 +177,9 @@ export default function App() {
     setAlignment(null); setGrid(generateGrid(GRID_W, GRID_H)); setStartTile(null)
     setResources({ ...START_RESOURCES }); setPopulation(START_POP); setMaxPopulation(START_MAX_POP)
     setBuildings({}); setBuildQueue([]); setUnits({}); setTrainQueue([]); setRunning(false)
-    localStorage.removeItem('mythic-ogame-save-v6'); localStorage.removeItem('mythic-ogame-save-v7')
+    localStorage.removeItem('mythic-ogame-save-v6')
+    localStorage.removeItem('mythic-ogame-save-v7')
+    localStorage.removeItem('mythic-ogame-save-v8')
   }
 
   const canStart = alignment && startTile
@@ -255,7 +255,7 @@ export default function App() {
         <div className="flex-1">
           <ResourceBar
             resources={resources}
-            prodPerSec={{ ...prodFromBiome, ...prodFromBuildings.out }} // biome part is empty now
+            prodPerSec={prodFromBuildings.out}
             foodUsePerSec={foodConsumptionPerSec}
             faithPerSec={faithPerSec}
           />
@@ -269,6 +269,12 @@ export default function App() {
           <div className="bg-slate-800 rounded-xl px-3 py-2 text-sm">
             <div className="opacity-70 text-xs">Alignment</div>
             <div className="font-semibold">{alignment ?? '—'}</div>
+          </div>
+          <div className="bg-slate-800 rounded-xl px-3 py-2 text-sm">
+            <div className="opacity-70 text-xs">Economy</div>
+            <div className="font-semibold">
+              {resources.Food > foodConsumptionPerSec ? 'Stable food' : 'Starvation risk'}
+            </div>
           </div>
           <div className="flex gap-2">
             <button className={`px-3 py-1 rounded-lg ${running ? 'bg-rose-600 hover:bg-rose-700' : 'bg-emerald-600 hover:bg-emerald-700'}`} disabled={!canStart} onClick={() => setRunning(r => !r)}>{running ? 'Pause' : 'Start'}</button>

@@ -17,7 +17,7 @@ export const POP_GROWTH_PER_SEC_IF_SURPLUS = 0.00003
 export const POP_DECAY_PER_SEC_IF_STARVING = 0.00005
 
 export const FAITH_PER_POP_PER_SEC: Record<Alignment, number> = {
-  Good: 0.0000, Neutral: 0.0000, Evil: 0.0000
+  Good: 0.0008, Neutral: 0.0005, Evil: 0.0003
 }
 
 export const BIOME_WEIGHTS: Record<Biome, number> = {
@@ -37,24 +37,24 @@ export const BASE_YIELDS_PER_MIN_PER_100: Record<
 }
 
 export const BUILDINGS: BuildingDef[] = [
-  { id:'Farm',            description:'Produces food',              allowedBiomes:[Biome.Plain],                        yields:{ Food:0.8 },                         requiresWorker:true },
-  { id:'Pasture',         description:'Produces food and leather',  allowedBiomes:[Biome.Plain, Biome.Mountain],        yields:{ Food:0.6, Leather:0.2 },           requiresWorker:true },
-  { id:'Hunting Grounds', description:'Produces food and leather',  allowedBiomes:[Biome.Forest],                       yields:{ Food:0.5, Leather:0.3 },           requiresWorker:true },
-  { id:'Fisheries',       description:'Produces food',              allowedBiomes:[Biome.Coast],                        yields:{ Food:0.7 },                         requiresWorker:true },
-  { id:'Flax Fields',     description:'Produces linen',             allowedBiomes:[Biome.Plain],                        yields:{ Linen:0.4 },                        requiresWorker:true },
+  { id:'Farm',            description:'Produces food',              allowedBiomes:[Biome.Plain],                        yields:{ Food:1.1 },                         requiresWorker:true },
+  { id:'Pasture',         description:'Produces food and leather',  allowedBiomes:[Biome.Plain, Biome.Mountain],        yields:{ Food:0.75, Leather:0.25 },         requiresWorker:true },
+  { id:'Hunting Grounds', description:'Produces food and leather',  allowedBiomes:[Biome.Forest],                       yields:{ Food:0.65, Leather:0.35 },         requiresWorker:true },
+  { id:'Fisheries',       description:'Produces food',              allowedBiomes:[Biome.Coast],                        yields:{ Food:1.0 },                         requiresWorker:true },
+  { id:'Flax Fields',     description:'Produces linen',             allowedBiomes:[Biome.Plain],                        yields:{ Linen:0.55 },                       requiresWorker:true },
 
   // Lumber Camps → WOOD
-  { id:'Lumber Camps',    description:'Produces wood',              allowedBiomes:[Biome.Forest],                       yields:{ Wood:0.6 },                         requiresWorker:true },
+  { id:'Lumber Camps',    description:'Produces wood',              allowedBiomes:[Biome.Forest],                       yields:{ Wood:0.85 },                        requiresWorker:true },
 
-  { id:'Quarry',          description:'Produces stone',             allowedBiomes:[Biome.Plain],                        yields:{ Stone:0.6 },                        requiresWorker:true },
-  { id:'Iron Mine',       description:'Produces iron',              allowedBiomes:[Biome.Mountain],                     yields:{ Iron:0.4 },                         requiresWorker:true },
-  { id:'Gold Mine',       description:'Produces gold',              allowedBiomes:[Biome.Mountain],                     yields:{ Gold:0.3 },                         requiresWorker:true },
+  { id:'Quarry',          description:'Produces stone',             allowedBiomes:[Biome.Plain],                        yields:{ Stone:0.8 },                        requiresWorker:true },
+  { id:'Iron Mine',       description:'Produces iron',              allowedBiomes:[Biome.Mountain],                     yields:{ Iron:0.55 },                        requiresWorker:true },
+  { id:'Gold Mine',       description:'Produces gold',              allowedBiomes:[Biome.Mountain],                     yields:{ Gold:0.38 },                        requiresWorker:true },
 
   // Housing/Temple don’t need workers
   { id:'Hut',             description:'Small housing (+20 cap)',    allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:20, requiresWorker:false },
   { id:'House',           description:'Large housing (+60 cap)',    allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:60, requiresWorker:false },
     { id:'Villa',           description:'Luxury housing (+120 cap)',   allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], popCapDelta:120, requiresWorker:false },
-    { id:'Temple',          description:'Generates Faith flat/s',     allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], faithPerSec:0.5, requiresWorker:false },
+    { id:'Temple',          description:'Generates Faith flat/s',     allowedBiomes:[Biome.Plain, Biome.Forest, Biome.Mountain, Biome.Coast], faithPerSec:0.7, requiresWorker:false },
 ]
 
 export const BUILD_COST: Record<string, Partial<Resources>> = {
