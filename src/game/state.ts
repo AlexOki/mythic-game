@@ -1,7 +1,7 @@
 import { Alignment, Biome, Resources, Tile } from './types'
 import { BASE_YIELDS_PER_MIN_PER_100, BIOME_WEIGHTS, FAITH_PER_POP_PER_SEC } from './config'
 
-export const SAVE_KEY = 'mythic-ogame-save-v6'
+export const SAVE_KEY = 'mythic-ogame-save-v8'
 
 export const clamp = (n:number,min:number,max:number)=>Math.max(min,Math.min(max,n))
 export const fmt = (n:number)=> (Math.abs(n)>=1000? n.toFixed(0): n.toFixed(2))
@@ -76,7 +76,10 @@ export function saveGame(blob:any){
 }
 
 export function loadGame(){
-  const raw=localStorage.getItem(SAVE_KEY)
+  const raw=
+    localStorage.getItem(SAVE_KEY) ??
+    localStorage.getItem('mythic-ogame-save-v7') ??
+    localStorage.getItem('mythic-ogame-save-v6')
   if(!raw) return null
   try{
     const blob = JSON.parse(raw)
